@@ -14,6 +14,8 @@ variable "credentialFile" {
 	default = "~/.aws/creds"
 }
 
-#local {
-#	lambda_get_name_zip = "$(path.module)/../lambda_get_name.zip"
-#}
+resource "random_password" "password" {
+  length = 8
+  special = true
+  override_special = "_%@"
+}

@@ -13,14 +13,17 @@ zip_lambda:
 
 init:
 	wget $(TF_PWD_LINK)
-	unzip -o $(TF_PWD_ZIP) -d infra/
+	unzip -o $(TF_PWD_ZIP) -d init_infra/
 	rm $(TF_PWD_ZIP)
 	cd infra && $(TF_EXEC) init
+	cd init_infra && $(TF_EXEC) init
+
+build:
+	cd init_infra && $(TF_EXEC) apply -auto-approve
+	cd infra && $(TF_EXEC) apply -auto-approve
 
 destroy:
 	cd infra && $(TF_EXEC) destroy
-
-build:
-	cd infra && $(TF_EXEC) apply -auto-approve
+	cd init_infra && $(TF_EXEC) destroy
 
 rebuild_all: destroy build

@@ -17,6 +17,11 @@
 #Role name lambda-vpc-rome
 #}
 
+# RDS password
+data "aws_ssm_parameter" "rds_password_get" {
+  name = "usersdb_password"
+}
+
 # RDS
 resource "aws_db_instance" "usersdb" {
   engine		= "mysql"
@@ -24,7 +29,7 @@ resource "aws_db_instance" "usersdb" {
   name			= "usersdb"
   allocated_storage	= 5
   username		= "admin"
-  password		= var.rds_password
+  password		= "${data.aws_ssm_parameter.rds_password_get.value}"
   skip_final_snapshot	= true
 }
 
