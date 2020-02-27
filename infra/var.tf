@@ -5,15 +5,15 @@ provider "aws" {
 }
 
 variable "region" {
-	type = string
-	default = "eu-west-3"
+  type = string
+  default = "eu-west-3"
 }
 
 variable "credentialFile" {
-	type = string
-	default = "~/.aws/creds"
+  type = string
+  default = "~/.aws/creds"
 }
 
 #local {
-#	lambda_get_name_zip = "$(path.module)/../lambda_get_name.zip"
+#  lambda_get_name_zip = "$(path.module)/../lambda_get_name.zip"
 #}
