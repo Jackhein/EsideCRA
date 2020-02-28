@@ -4,9 +4,9 @@ import rds_config
 import pymysql
 
 rds_host = ""
-name = rds_config.db_username
-password = rds_config.db_password
-db_name = rds_config.db_name
+name = "usersdb"
+password = 
+db_name = "usersdb"
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
