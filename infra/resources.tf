@@ -1,6 +1,8 @@
 # RDS password
-data "aws_ssm_parameter" "rds_password_get" {
+resource "aws_ssm_parameter" "rds_password_set" {
   name = "usersdb_password"
+  type = "SecureString"
+  value = random_password.password.result
 }
 
 # RDS
@@ -11,25 +13,25 @@ resource "aws_db_instance" "usersdb" {
   identifier		= "usersdb"
   allocated_storage	= 5
   username		= "admin"
-  password		= "${data.aws_ssm_parameter.rds_password_get.value}"
+  password		= "${aws_ssm_parameter.rds_password_set.value}"
   skip_final_snapshot	= true
 }
 
 # RDS access for Lambda
-resource "aws_iam_role" "role_lambda_rds_database_settings" {
-  name = "role_lambda_rds_database_settings"
+resource "aws_iam_role" "role_lambda_rds_database_readOnly" {
+  name = "role_lambda_rds_database_readOnly"
   assume_role_policy = "${file("${path.module}/../iam_policy/AWSLambdaRDSAccesRole.json")}"
 }
 
-resource "aws_iam_policy" "policy_lambda_rds_database_settings" {
-  name = "policy_lambda_rds_database_settings"
+resource "aws_iam_policy" "policy_lambda_rds_database_readOnly" {
+  name = "policy_lambda_rds_database_readOnly"
   path = "/"
-  description = "Allow RDS database settings for lambda"
+  description = "Allow RDS database reading for lambda"
   policy = "${file("${path.module}/../iam_policy/AWSLambdaRDSAccesPolicy.json")}"
 }
 
-resource "aws_iam_role_policy_attachment" "attachment_lambda_rds_database_settings" {
-  role = "${aws_iam_role.role_lambda_rds_database_settings.name}"
-  policy_arn = "${aws_iam_policy.policy_lambda_rds_database_settings.arn}"
+resource "aws_iam_role_policy_attachment" "attachment_lambda_rds_database_readOnly" {
+  role = "${aws_iam_role.role_lambda_rds_database_readOnly.name}"
+  policy_arn = "${aws_iam_policy.policy_lambda_rds_database_readOnly.arn}"
 }
 
