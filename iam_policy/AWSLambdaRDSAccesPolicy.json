@@ -2,19 +2,30 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "VisualEditor0",
+            "Sid": "ParameterPolicies",
             "Effect": "Allow",
             "Action": [
                 "ssm:GetParameter"
-	    ],
+            ],
             "Resource": "arn:aws:ssm:eu-west-3:*:parameter/*"
-        },{
-            "Sid": "VisualEditor1",
+        },
+        {
+            "Sid": "DatabasePolicies",
             "Effect": "Allow",
             "Action": [
-	        "rds:DescribeDBInstances"
+                "rds:DescribeDBInstances"
             ],
             "Resource": "arn:aws:rds:eu-west-3:*:db:usersdb"
+        },
+        {
+            "Sid": "VPCPolicies",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:CreateNetworkInterface",
+                "ec2:DeleteNetworkInterface"
+            ],
+            "Resource": "*"
         }
     ]
 }

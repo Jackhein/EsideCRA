@@ -28,10 +28,10 @@ resource "aws_iam_role_policy_attachment" "attachment_lambda_rds_database_settin
 
 # Lambda (modify name)
 resource "aws_lambda_function" "lambda_set_rds" {
-  filename = "${path.module}/../lambda/popipo.zip"
-  function_name = "popipo2"
+  filename = "${path.module}/../lambda/setDatabase.zip"
+  function_name = "setDatabase"
   role = aws_iam_role.role_lambda_rds_database_settings.arn
-  handler = "init_database.get_password"
+  handler = "init_database.setDatabase"
   source_code_hash = "${filebase64sha256("${path.module}/../lambda/popipo.zip")}"
   runtime = "python3.8"
   publish = true
